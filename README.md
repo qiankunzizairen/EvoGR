@@ -1,26 +1,26 @@
 # EvoGR (Evo 2-based Genomic Representation)
 
-本仓库实现论文 **Structure-aware transfer of pretrained genomic representations for population and cross-clade classification** 中提出的 EvoGR 方法。
+This repository implements EvoGR, the method proposed in **Structure-aware transfer of pretrained genomic representations for population and cross-clade classification**.
 
 ## Model Architecture
 
-EvoGR 使用预训练的 Evo 2 提取基因组序列表示，并结合局部上下文与变异信息构建结构感知的基因组表示，最后用于 population classification 和 cross-clade classification。Evo 2 主干保持冻结，分类头可根据任务进行训练。
+EvoGR uses pretrained Evo 2 to extract genomic sequence representations. It combines local context and variant information to construct structure-aware genomic representations for population and cross-clade classification. The Evo 2 backbone remains frozen, while task-specific classification heads can be trained for each downstream task.
 
 ![EvoGR model architecture](fig/framework.png)
 
-## 快速使用
+## Quick Start
 
-### 1. 安装依赖
+### 1. Install dependencies
 
-建议使用 Python 3.10 或更高版本，并在具有 CUDA 加速的Linux环境中运行 Evo 2 推理。
+We recommend Python 3.10 or later and a Linux environment with CUDA acceleration for Evo 2 inference.
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate       
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-设置源码路径：
+Set the source paths:
 
 ```bash
 export PYTHONPATH="$PWD/population/src:$PWD/cross_clade/src:$PYTHONPATH"
@@ -28,23 +28,20 @@ export PYTHONPATH="$PWD/population/src:$PWD/cross_clade/src:$PYTHONPATH"
 
 ### 2. Population classification
 
-准备数据、Evo 2 模型检查点和对应配置文件后，运行完整流程：
+After preparing the input data, Evo 2 checkpoint, and configuration file, run the full pipeline:
 
 ```bash
 python population/scripts/run_pipeline.py --config configs/base.yaml
 ```
 
-也可以分别运行数据检查、序列构建、Evo 2 表征提取、交叉验证和结果验证脚本。各脚本位于 `population/scripts/`。
+Data validation, sequence construction, Evo 2 representation extraction, cross-validation, and result validation can also be run separately using the scripts in `population/scripts/`.
 
 ### 3. Cross-clade classification
 
-准备 cross-clade 配置和输入数据后，运行交叉验证：
+After preparing the cross-clade configuration and input data, run cross-validation:
 
 ```bash
 python cross_clade/scripts/run_cv.py \
   --head transformer \
   --config configs/experiment.yaml
 ```
-
-
-
