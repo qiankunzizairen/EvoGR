@@ -12,11 +12,11 @@ EvoGR 使用预训练的 Evo 2 提取基因组序列表示，并结合局部上�
 
 ### 1. 安装依赖
 
-建议使用 Python 3.10 或更高版本，并在具有 CUDA 或 Apple Silicon 加速的环境中运行 Evo 2 推理。
+建议使用 Python 3.10 或更高版本，并在具有 CUDA 加速的Linux环境中运行 Evo 2 推理。
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate       # Windows: .venv\\Scripts\\activate
+source .venv/bin/activate       
 pip install -r requirements.txt
 ```
 
@@ -46,14 +46,5 @@ python cross_clade/scripts/run_cv.py \
   --config configs/experiment.yaml
 ```
 
-可选分类头包括 `baseline` 和 `transformer`。
 
-## 目录结构
-
-```text
-population/      population classification 流程
-cross_clade/     cross-clade classification 流程
-data/            数据说明
-fig/             方法架构图
-```
 
