@@ -1,0 +1,59 @@
+project:
+  seed: 42
+data:
+  genotype_csv: ./data/aims56_CHN100K_TOP10_1000g_5_Label.csv
+  label_metadata_tsv: ./data/aims56_1000g_5_Label_metadata.tsv
+  allele_metadata_csv: ./data/aims56_CHN100K_TOP10_1000g_alleles.csv
+  reference_fasta: ./data/GRCh38_full_analysis_set_plus_decoy_hla.fa
+  reference_fai: ./data/GRCh38_full_analysis_set_plus_decoy_hla.fa.fai
+  base_aim_count: 56
+  added_aims_per_autosome: 10
+  autosome_count: 22
+sequence:
+  fixed_flank_bp: 50
+  max_context_length: 8192
+evo2:
+  model_name: evo2_7b_base
+  repo_id: arcinstitute/evo2_7b_base
+  checkpoint_path: ./models/evo2_7b_base.pt
+  layer_name: blocks.28.mlp.l3
+  pool_radii: [0, 4]
+  active_pool_radius: 4
+cv:
+  n_splits: 5
+  shuffle: true
+  random_state: 42
+model:
+  locus_projection_dim: 128
+  attention_hidden_dim: 64
+  classifier_hidden_dim: 128
+  dropout: 0.10
+  num_classes: 5
+training:
+  batch_size: 64
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  early_stopping_patience: 8
+  gradient_clip_norm: 1.0
+variable_snp:
+  min_snps: 16
+  bucket_fractions: [[0.10, 0.20], [0.20, 0.40], [0.40, 0.60], [0.60, 0.80], [0.80, 1.00]]
+  eval_fractions: [0.10, 0.25, 0.50, 0.75, 1.00]
+  val_replicates_per_k: 5
+  test_replicates_per_k: 10
+variable_context:
+  train_flank_bp: [10, 50, 100, 500, 1000]
+  eval_flank_bp: [10, 50, 100, 500, 1000]
+  train_sampling: uniform
+artifacts:
+  sequence_dir: ./artifacts/sequences
+  embedding_dir: ./artifacts/embeddings/evo2_7b_base
+  cv_dir: ./artifacts/cv
+  model_dir: ./artifacts/models
+  run_dir: ./artifacts/runs
+  representation_dir: ./artifacts/representations
+  baseline_dir: ./artifacts/baselines
+results:
+  fixed_full_json: ./results/fixed_full/test_metrics.json
+  variable_snp_json: ./results/variable_snp/test_metrics.json
+  variable_context_json: ./results/variable_context/test_metrics.json

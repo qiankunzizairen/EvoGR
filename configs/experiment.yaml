@@ -1,0 +1,5 @@
+train_config: ./configs/train.yaml
+output_root: ./outputs
+experiment_name: evo2_species_classifier
+folds: [0, 1, 2, 3, 4]
+skip_completed: true
